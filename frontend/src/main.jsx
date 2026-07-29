@@ -1,12 +1,11 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { BrowserRouter } from "react-router-dom";
+import App from "./App";
+import "./index.css";
 
-function App() {
-  return <h1>LinkUp frontend is ready</h1>;
-}
-
-ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
+ReactDOM.createRoot(document.getElementById("root")).render(
+  <BrowserRouter>
     <App />
-  </React.StrictMode>
+  </BrowserRouter>
 );
