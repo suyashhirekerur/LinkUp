@@ -1,10 +1,12 @@
-import React from 'react'
+import React from 'react';
+import useAuthStore from '../store/useAuthStore.js';
 
-function LoginPage(myName) {
-  const {authUser, isLoading, login} = useAuthStore();
+function LoginPage() {
+  const { authUser, isCheckingAuth } = useAuthStore();
+
   return (
     <div>Login Page</div>
-  )
+  );
 }
 
 export default LoginPage

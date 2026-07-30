@@ -4,7 +4,7 @@ import messageRoutes from "./routes/message.route.js"
 import cookieParser from "cookie-parser";
 import path from "path"
 import { connectDB } from './lib/db.js';
-import {ENV} from "./lib/env.js";
+import { ENV } from "./lib/env.js";
 
 const app = express();
 const __dirname = path.resolve();
@@ -15,6 +15,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use("/api/auth", authRoutes);
+app.use(cors({ origin: ENV.CLIENT_URL, credentials: true, }));
 app.use("/api/messages", messageRoutes);
 
 // make ready for deployment
