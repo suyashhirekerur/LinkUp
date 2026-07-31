@@ -1,4 +1,5 @@
 import express from 'express';
+import cors from 'cors';
 import authRoutes from "./routes/auth.route.js"
 import messageRoutes from "./routes/message.route.js"
 import cookieParser from "cookie-parser";
@@ -11,11 +12,11 @@ const __dirname = path.resolve();
 
 const PORT = Number(ENV.PORT) || 3000;
 
+app.use(cors({ origin: ENV.CLIENT_URL, credentials: true }));
 app.use(express.json());
 app.use(cookieParser());
 
 app.use("/api/auth", authRoutes);
-app.use(cors({ origin: ENV.CLIENT_URL, credentials: true, }));
 app.use("/api/messages", messageRoutes);
 
 // make ready for deployment
