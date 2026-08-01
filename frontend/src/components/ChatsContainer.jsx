@@ -18,7 +18,7 @@ function ChatContainer() {
     const { authUser } = useAuthStore();
     const messageEndRef = useRef(null);
 
-    useEffect(() => {
+    useEffect(() => {frontend/src/components/frontend/src/components/MessagesLoadingSkeleton.jsx
         getMessagesByUserId(selectedUser._id);
         subscribeToMessages();
 
