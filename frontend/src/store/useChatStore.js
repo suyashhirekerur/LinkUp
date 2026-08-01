@@ -4,15 +4,15 @@ import { toast } from "react-toastify";
 
 export const useChatStore = create((set, get) => ({
     allContacts: [],
-    chtas: [],
+    chats: [],
     messages: [],
     activeChat: "chats",
     selectedUser: null,
     isUsersLoading: false,
     isMessagesLoading: false,
-    isSoundEnabled: localStorage.getItem("isSoundEnabled") === "true" ? true : false,
+    isSoundEnabled: JSON.parse(localStorage.getItem("isSoundEnabled")) === "true" ? true : false,
 
-    toggkeSound: () => {
+    toggleSound: () => {
         localStorage.setItem("isSoundEnabled", !get().isSoundEnabled);
         set({ isSoundEnabled: !get().isSoundEnabled });
     },
@@ -32,7 +32,7 @@ export const useChatStore = create((set, get) => ({
         }
     },
 
-    getMychatPartners: async () => {
+    getMyChatPartners: async () => {
         set({ isUsersLoading: true });
         try {
             const res = await axiosInstance.get("/messages/chats");
@@ -43,4 +43,17 @@ export const useChatStore = create((set, get) => ({
             set({ isUsersLoading: false });
         }
     },
+
+    updateProfile: async (data) => {
+    try {
+        const res = await axiosinstance.put("/auth/update-profile", data);
+        set({authUser: res.data})
+        toast.success("Profile updated successfully");
+    } catch (error) {
+        console.log("Error updating profile:", error);
+        toast.error(error.response.data.message);
+    }
+}
 }));
+
+export default useChatStore;
