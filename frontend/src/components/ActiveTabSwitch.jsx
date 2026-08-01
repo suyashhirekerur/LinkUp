@@ -18,7 +18,7 @@ function ActiveTabSwitch() {
                 className={`tab ${activeTab === "contacts" ? "Dbg-cyan-500/20 text-cyan-400" : "text-slate-400"}`}
             >
                 Contacts
-                </button>
+            </button>
         </div >
     )
 }

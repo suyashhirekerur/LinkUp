@@ -44,16 +44,28 @@ export const useChatStore = create((set, get) => ({
         }
     },
 
-    updateProfile: async (data) => {
-    try {
-        const res = await axiosinstance.put("/auth/update-profile", data);
-        set({authUser: res.data})
-        toast.success("Profile updated successfully");
-    } catch (error) {
-        console.log("Error updating profile:", error);
-        toast.error(error.response.data.message);
+    // updateProfile: async (data) => {
+    //     try {
+    //         const res = await axiosinstance.put("/auth/update-profile", data);
+    //         set({ authUser: res.data })
+    //         toast.success("Profile updated successfully");
+    //     } catch (error) {
+    //         console.log("Error updating profile:", error);
+    //         toast.error(error.response.data.message);
+    //     }
+    // },
+
+    getMessagesByUserId: async (userId) => {
+        set({ isMessagesLoading: true });
+        try {
+            const res = await axiosInstance.get(`/messages/${userId}`);
+            set({ messages: res.data });
+        } catch (error) {
+            toast.error(error.response.data.message || "Something went wrong while fetching messages.");
+        } finally {
+            set({ isMessagesLoading: false });
+        }
     }
-}
 }));
 
 export default useChatStore;
