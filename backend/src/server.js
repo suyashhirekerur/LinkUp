@@ -6,6 +6,7 @@ import cookieParser from "cookie-parser";
 import path from "path"
 import { connectDB } from './lib/db.js';
 import { ENV } from "./lib/env.js";
+import { server } from "./lib/socket.js";
 
 const app = express();
 const __dirname = path.resolve();
@@ -29,7 +30,7 @@ if (ENV.NODE_ENV === "production") {
 }
 
 const startServer = (port) => {
-    const server = app.listen(port, () => {
+    const server = server.listen(port, () => {
         console.log("Server is running on port: " + port);
         connectDB();
     });
