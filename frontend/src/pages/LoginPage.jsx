@@ -2,23 +2,23 @@ import React from 'react';
 import { useAuthStore } from '../store/useAuthStore.js';
 import { useState } from 'react';
 import BorderAnimatedContainer from "../components/BorderAnimatedContainer";
-import { MessageCircleIcon, MailIcon,  LoaderIcon } from "lucide-react";
-import { Link } from "react-router";
+import { MessageCircleIcon, MailIcon, LockIcon, LoaderIcon } from "lucide-react";
+import { Link } from "react-router-dom";
 
 function LoginPage() {
   const [formData, setFormData] = useState({ fullName: "", email: "", password: "" });
-  const { login, isLoginIn } = useAuthStore();
+  const { login, isLoggingIn } = useAuthStore();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    signup(formData);
+    login(formData);
   };
 
   return (
-    <div className="w-full flex items-center justify-center p-4 bg-slate-900">
-      <div className="relative w-full max-w-6xl md:h-[800px] h-[650px]">
+    <div className="w-full flex items-center justify-center">
+      <div className="relative w-full max-w-[1200px] min-h-[650px] md:min-h-[800px]">
         <BorderAnimatedContainer>
-          <div className="w-full flex flex-col md:flex-row">
+          <div className="w-full flex flex-col md:flex-row h-full min-h-[650px] md:min-h-[800px]">
             {/* FORM CLOUMN - LEFT SIDE */}
             <div className="md:w-1/2 p-8 flex items-center justify-center md:border-r border-slate-600/30">
               <div className="w-full max-w-md">
@@ -65,8 +65,8 @@ function LoginPage() {
                   </div>
 
                   {/* SUBMIT BUTTON */}
-                  <button className="auth-btn" type="submit" disabled={isLoginIn}>
-                    {isLoginIn ? (
+                  <button className="auth-btn" type="submit" disabled={isLoggingIn}>
+                    {isLoggingIn ? (
                       <LoaderIcon className="w-full h-5 animate-spin text-center" />
                     ) : (
                       "Sign In"

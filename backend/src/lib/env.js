@@ -2,13 +2,13 @@ import "dotenv/config";
 
 export const ENV = {
   PORT: process.env.PORT || 3000,
-  MONGODB_URL: process.env.MONGODB_URL,
+  MONGODB_URL: process.env.MONGODB_URL || "mongodb://127.0.0.1:27017/linkup",
   NODE_ENV: process.env.NODE_ENV || "development",
-  JWT_SECRET_KEY: process.env.JWT_SECRET_KEY,
+  JWT_SECRET_KEY: process.env.JWT_SECRET_KEY || "development-secret-key",
   RESEND_API_KEY: process.env.RESEND_API_KEY,
   EMAIL_FROM: process.env.EMAIL_FROM,
   EMAIL_FROM_NAME: process.env.EMAIL_FROM_NAME,
-  CLIENT_URL: process.env.CLIENT_URL,
+  CLIENT_URL: process.env.CLIENT_URL || "http://localhost:5173",
   CLOUDINARY_CLOUD_NAME: process.env.CLOUDINARY_CLOUD_NAME,
   CLOUDINARY_API_KEY: process.env.CLOUDINARY_API_KEY,
   CLOUDINARY_API_SECRET: process.env.CLOUDINARY_API_SECRET,

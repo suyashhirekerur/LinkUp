@@ -6,21 +6,31 @@ import cookieParser from "cookie-parser";
 import path from "path"
 import { connectDB } from './lib/db.js';
 import { ENV } from "./lib/env.js";
-import { server } from "./lib/socket.js";
+import { initSocketServer } from "./lib/socket.js";
 
 const app = express();
 const __dirname = path.resolve();
 
 const PORT = Number(ENV.PORT) || 3000;
+const allowedOrigins = [ENV.CLIENT_URL, "http://localhost:5173", "http://127.0.0.1:5173"];
 
 app.use(express.json({ limit: "5mb" }));
-app.use(cors({ origin: ENV.CLIENT_URL, credentials: true }));
+app.use(cors({
+    origin: (origin, callback) => {
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+            return;
+        }
+
+        callback(new Error("Not allowed by CORS"));
+    },
+    credentials: true,
+}));
 app.use(cookieParser());
 
 app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);
 
-// make ready for deployment
 if (ENV.NODE_ENV === "production") {
     app.use(express.static(path.join(__dirname, "../frontend/dist")));
 
@@ -30,15 +40,16 @@ if (ENV.NODE_ENV === "production") {
 }
 
 const startServer = (port) => {
-    const server = server.listen(port, () => {
+    const httpServer = app.listen(port, () => {
         console.log("Server is running on port: " + port);
+        initSocketServer(httpServer);
         connectDB();
     });
 
-    server.on("error", (error) => {
+    httpServer.on("error", (error) => {
         if (error.code === "EADDRINUSE") {
             console.warn(`Port ${port} is already in use. Trying ${port + 1}...`);
-            server.close(() => startServer(port + 1));
+            httpServer.close(() => startServer(port + 1));
         } else {
             console.error("Server error:", error);
             process.exit(1);
